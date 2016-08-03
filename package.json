@@ -1,0 +1,24 @@
+{
+  "name": "ghost-ignition",
+  "version": "0.0.1",
+  "description": "Basic configuration and tooling shared across applications",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TryGhost/Ignition.git"
+  },
+  "author": "Ghost Foundation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TryGhost/Ignition/issues"
+  },
+  "homepage": "https://github.com/TryGhost/Ignition#readme",
+  "dependencies": {
+    "debug": "2.2.0",
+    "express": "4.14.0",
+    "nconf": "0.8.4"
+  }
+}
