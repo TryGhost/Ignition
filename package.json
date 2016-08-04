@@ -21,5 +21,9 @@
     "express": "4.14.0",
     "nconf": "0.8.4",
     "randomstring": "1.1.5"
+  },
+  "devDependencies": {
+    "grunt": "1.0.1",
+    "grunt-release": "0.14.0"
   }
 }
