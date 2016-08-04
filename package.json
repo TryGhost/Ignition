@@ -4,7 +4,7 @@
   "description": "Basic configuration and tooling shared across applications",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha -- $(find test -name '*.test.js')"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,9 @@
     "randomstring": "1.1.5"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
     "grunt": "1.0.1",
-    "grunt-release": "0.14.0"
+    "grunt-release": "0.14.0",
+    "mocha": "^3.0.1"
   }
 }
