@@ -13,6 +13,7 @@ describe('Errors Public API', function () {
         expect(errors).to.have.ownProperty('BadRequestError');
         expect(errors).to.have.ownProperty('InternalServerError');
         expect(errors).to.have.ownProperty('MaintenanceError');
+        expect(errors).to.have.ownProperty('MethodNotAllowedError');
         expect(errors).to.have.ownProperty('NoPermissionError');
         expect(errors).to.have.ownProperty('NotFoundError');
         expect(errors).to.have.ownProperty('RequestEntityTooLargeError');
