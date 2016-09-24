@@ -6,6 +6,10 @@
   "scripts": {
     "test": "./node_modules/.bin/mocha -- $(find test -name '*.test.js')"
   },
+  "files": [
+    "index.js",
+    "lib"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/TryGhost/Ignition.git"
