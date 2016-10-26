@@ -76,4 +76,12 @@ describe('Errors Public API', function () {
 
         should.not.exist(errors.CustomGhostError);
     });
+
+    it('test default message', function () {
+        var err = new errors.BadRequestError();
+        err.message.should.eql('The request could not be understood.');
+
+        err = new errors.BadRequestError({message: 'this is custom'});
+        err.message.should.eql('this is custom');
+    });
 });
