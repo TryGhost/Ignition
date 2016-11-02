@@ -14,10 +14,10 @@ var logging = require('ghost-ignition').logging({
     path: '/var/log'
 });
 
-**mode**       : long|short (default is `short`) - defines the output volume (helpful when logging requests)
-**level**      : info|error|debug (default is `info`)
-**transports** : stdout|file (default is `['stdout']`
-**path**       : is used when file transport is enabled (default is `process.cwd()`)
+mode         : long|short (default is `short`) - defines the output volume (helpful when logging requests)
+level        : info|error|debug (default is `info`)
+transports   : stdout|file (default is `['stdout']`
+path         : is used when file transport is enabled (default is `process.cwd()`)
 
 logging.info({req: req, res: res});
 logging.info('Info');
@@ -25,6 +25,10 @@ logging.error(new Error());
 logging.warn('this', 'is', 'a', 'warning');
 logging.debug('this is a debug mode');
 ```
+
+### env parameter
+You can use `LEVEL=error` or `MODE=long`.
+
 
 ### Logging into file
 We log JSON format into file. This is very easy to forward and easy to interprete.
