@@ -84,4 +84,9 @@ describe('Errors Public API', function () {
         err = new errors.BadRequestError({message: 'this is custom'});
         err.message.should.eql('this is custom');
     });
+
+    it('test property', function () {
+        var err = new errors.BadRequestError({property: 'email'});
+        err.property.should.eql('email');
+    });
 });
