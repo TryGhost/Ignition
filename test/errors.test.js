@@ -2,6 +2,7 @@
 var expect = require('chai').expect;
 var should = require('should');
 var _ = require('lodash');
+require('./assertions');
 
 // What we're testing
 var errors = require('../lib/errors');
@@ -88,5 +89,37 @@ describe('Errors Public API', function () {
     it('test property', function () {
         var err = new errors.BadRequestError({property: 'email'});
         err.property.should.eql('email');
+    });
+
+    it('serialize/deserialize error', function () {
+        var err = new errors.BadRequestError({
+            help: 'do you need help?',
+            context: 'i can\'t help'
+        });
+
+        var serialized = errors.utils.serialize(err);
+
+        serialized.should.be.a.JSONErrorResponse({
+            status: 400,
+            code: 'BadRequestError',
+            title: 'BadRequestError',
+            detail: 'The request could not be understood.',
+            meta: {
+                level: 'normal',
+                errorType: 'BadRequestError'
+            }
+        });
+
+        var deserialized = errors.utils.deserialize(serialized);
+        (deserialized instanceof errors.IgnitionError).should.eql(true);
+        (deserialized instanceof Error).should.eql(true);
+
+        deserialized.id.should.eql(serialized.errors[0].id);
+        deserialized.message.should.eql(serialized.errors[0].detail);
+        deserialized.name.should.eql(serialized.errors[0].title);
+        deserialized.statusCode.should.eql(serialized.errors[0].status);
+        deserialized.level.should.eql(serialized.errors[0].meta.level);
+        deserialized.help.should.eql(serialized.errors[0].meta.help);
+        deserialized.context.should.eql(serialized.errors[0].meta.context);
     });
 });
