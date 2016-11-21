@@ -94,7 +94,8 @@ describe('Errors Public API', function () {
     it('serialize/deserialize error', function () {
         var err = new errors.BadRequestError({
             help: 'do you need help?',
-            context: 'i can\'t help'
+            context: 'i can\'t help',
+            property: 'email'
         });
 
         var serialized = errors.utils.serialize(err);
@@ -104,6 +105,9 @@ describe('Errors Public API', function () {
             code: 'BadRequestError',
             title: 'BadRequestError',
             detail: 'The request could not be understood.',
+            source: {
+                pointer: '/data/attributes/email'
+            },
             meta: {
                 level: 'normal',
                 errorType: 'BadRequestError'
@@ -121,5 +125,20 @@ describe('Errors Public API', function () {
         deserialized.level.should.eql(serialized.errors[0].meta.level);
         deserialized.help.should.eql(serialized.errors[0].meta.help);
         deserialized.context.should.eql(serialized.errors[0].meta.context);
+        deserialized.property.should.eql('email');
+
+        err = new errors.BadRequestError();
+        serialized = errors.utils.serialize(err);
+
+        serialized.should.be.a.JSONErrorResponse({
+            status: 400,
+            code: 'BadRequestError',
+            title: 'BadRequestError',
+            detail: 'The request could not be understood.',
+            meta: {
+                level: 'normal',
+                errorType: 'BadRequestError'
+            }
+        });
     });
 });
