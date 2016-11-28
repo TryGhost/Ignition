@@ -91,6 +91,11 @@ describe('Errors Public API', function () {
         err.property.should.eql('email');
     });
 
+    it('test err as string', function () {
+        var err = new errors.BadRequestError({err: 'db error'});
+        err.stack.should.containEql('db error');
+    });
+
     it('serialize/deserialize error', function () {
         var err = new errors.BadRequestError({
             help: 'do you need help?',
