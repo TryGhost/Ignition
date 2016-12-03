@@ -145,5 +145,57 @@ describe('Errors Public API', function () {
                 errorType: 'BadRequestError'
             }
         });
+
+        should.not.exist(serialized.errors[0].error);
+        should.not.exist(serialized.errors[0].error_description);
+    });
+
+    it('oauth serialize', function () {
+        var err = new errors.NoPermissionError({
+            message: 'Permissions you need to have.'
+        });
+
+        var serialized = errors.utils.serialize(err, {format: 'oauth'});
+
+        serialized.error.should.eql('access_denied');
+        serialized.error_description.should.eql('Permissions you need to have.');
+        serialized.status.should.eql(403);
+        serialized.title.should.eql('NoPermissionError');
+        serialized.meta.level.should.eql('normal');
+
+        should.not.exist(serialized.message);
+        should.not.exist(serialized.detail);
+        should.not.exist(serialized.code);
+
+        var deserialized = errors.utils.deserialize(serialized, {});
+
+        (deserialized instanceof errors.IgnitionError).should.eql(true);
+        (deserialized instanceof errors.NoPermissionError).should.eql(true);
+        (deserialized instanceof Error).should.eql(true);
+
+        deserialized.id.should.eql(serialized.id);
+        deserialized.message.should.eql(serialized.error_description);
+        deserialized.name.should.eql(serialized.title);
+        deserialized.statusCode.should.eql(serialized.status);
+        deserialized.level.should.eql(serialized.meta.level);
+    });
+
+    it('[failure] deserialize jsonapi, but obj is empty', function () {
+        var deserialized = errors.utils.deserialize({});
+        (deserialized instanceof errors.IgnitionError).should.eql(true);
+        (deserialized instanceof errors.InternalServerError).should.eql(true);
+        (deserialized instanceof Error).should.eql(true);
+    });
+
+    it('[failure] deserialize oauth, but obj is empty', function () {
+        var deserialized = errors.utils.deserialize({}, {format: 'oauth'});
+        (deserialized instanceof errors.IgnitionError).should.eql(true);
+        (deserialized instanceof errors.InternalServerError).should.eql(true);
+        (deserialized instanceof Error).should.eql(true);
+    });
+
+    it('[failure] serialize oauth, but obj is empty', function () {
+        var serialized = errors.utils.serialize({}, {format: 'oauth'});
+        serialized.error.should.eql('server_error');
     });
 });
