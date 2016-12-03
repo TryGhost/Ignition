@@ -188,7 +188,7 @@ describe('Errors Public API', function () {
     });
 
     it('[failure] deserialize oauth, but obj is empty', function () {
-        var deserialized = errors.utils.deserialize({}, {format: 'oauth'});
+        var deserialized = errors.utils.deserialize({});
         (deserialized instanceof errors.IgnitionError).should.eql(true);
         (deserialized instanceof errors.InternalServerError).should.eql(true);
         (deserialized instanceof Error).should.eql(true);
