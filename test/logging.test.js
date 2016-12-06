@@ -24,4 +24,21 @@ describe('Logging', function () {
         var ghostLogger = new GhostLogger();
         ghostLogger.info({err: new Error('message'), req: {body: {}}, res: {headers: {}}});
     });
+
+    it('remove sensitive data', function (done) {
+        sandbox.stub(PrettyStream.prototype, 'write', function (data) {
+            should.not.exist(data.req.body.password);
+            should.not.exist(data.req.body.data.attributes.pin);
+            should.exist(data.req.body.data.attributes.test);
+            done();
+        });
+
+        var ghostLogger = new GhostLogger();
+
+        ghostLogger.info({
+            err: new Error('message'),
+            req: {body: {password: '12345678', data: {attributes: {pin: '1234', test: 'ja'}}}},
+            res: {headers: {}}
+        });
+    });
 });

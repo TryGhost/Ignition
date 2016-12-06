@@ -86,6 +86,11 @@ describe('Errors Public API', function () {
         err.message.should.eql('this is custom');
     });
 
+    it('internal server error', function () {
+        var err = new errors.InternalServerError();
+        err.level.should.eql('critical');
+    });
+
     it('test property', function () {
         var err = new errors.BadRequestError({property: 'email'});
         err.property.should.eql('email');
