@@ -39,3 +39,28 @@ By default we create two log files:
 You can easily make the log files readable by calling:
 `cat your.log | bunyan`
 
+### Loggly Stream
+You can send your logs to loggly by configuring the logger like this:
+
+```
+var logging = require('ghost-ignition').logging({
+    domain: 'example.com,
+    env: 'production',
+    mode: 'long',
+    level: 'info',
+    transports: ['file', 'loggly'],
+    rotation: {enabled: true, period: '1d', count: 10},
+    path: '/var/log',
+    loggly: {
+      token: 'your-token',
+      subdomain: 'your-subdomain',
+      match: 'regex as string to match specific properties only certain log entries'
+    }
+});
+
+Example for match:
+match: 'level:critical'
+match: 'statusCode:500|statusCode:403'
+```
+
+
