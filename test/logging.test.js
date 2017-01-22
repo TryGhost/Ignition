@@ -19,7 +19,7 @@ describe('Logging', function () {
             should.exist(data.req);
             should.exist(data.res);
             should.exist(data.err);
-            data.msg.should.eql('');
+            data.msg.should.eql('message');
             done();
         });
 
@@ -236,6 +236,7 @@ describe('Logging', function () {
                 ghostPrettyStream.write(JSON.stringify({
                     time: '2016-07-01 00:00:00',
                     level: 50,
+                    msg: 'message',
                     err: {
                         message: 'Hey Jude!',
                         stack: 'stack'
