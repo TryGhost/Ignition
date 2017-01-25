@@ -203,4 +203,38 @@ describe('Errors Public API', function () {
         var serialized = errors.utils.serialize({}, {format: 'oauth'});
         serialized.error.should.eql('server_error');
     });
+
+    describe('isIgnitionError', function () {
+        it('1', function () {
+            var isIgnitionError = errors.utils.isIgnitionError(new Error());
+            isIgnitionError.should.eql(false);
+        });
+
+        it('2', function () {
+            var isIgnitionError = errors.utils.isIgnitionError(new errors.NotFoundError());
+            isIgnitionError.should.eql(true);
+        });
+
+        it('3', function () {
+            var err = new errors.NotFoundError();
+            err.constructor.super_ = {};
+            err.constructor.super_.name = 'GhostError';
+            err.constructor.super_.super_ = {};
+            err.constructor.super_.super_.name = 'IgnitionError';
+
+            var isIgnitionError = errors.utils.isIgnitionError(err);
+            isIgnitionError.should.eql(true);
+        });
+
+        it('4', function () {
+            var err = new errors.NotFoundError();
+            err.constructor.super_ = {};
+            err.constructor.super_.name = 'GhostError';
+            err.constructor.super_.super_ = {};
+            err.constructor.super_.super_.name = 'NoIgnitionError';
+
+            var isIgnitionError = errors.utils.isIgnitionError(err);
+            isIgnitionError.should.eql(false);
+        });
+    });
 });
