@@ -185,6 +185,22 @@ describe('Errors Public API', function () {
         deserialized.level.should.eql(serialized.meta.level);
     });
 
+    it('[success] deserialize jsonapi, but target error name is unknown', function () {
+        var deserialized = errors.utils.deserialize({
+            errors: [{
+                name: 'UnknownError',
+                message: 'message'
+            }]
+        });
+
+        (deserialized instanceof errors.IgnitionError).should.eql(true);
+        (deserialized instanceof errors.InternalServerError).should.eql(true);
+        (deserialized instanceof Error).should.eql(true);
+
+        deserialized.errorType.should.eql('UnknownError');
+        deserialized.message.should.eql('message');
+    });
+
     it('[failure] deserialize jsonapi, but obj is empty', function () {
         var deserialized = errors.utils.deserialize({});
         (deserialized instanceof errors.IgnitionError).should.eql(true);
