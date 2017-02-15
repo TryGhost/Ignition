@@ -229,7 +229,7 @@ describe('Logging', function () {
                 var ghostPrettyStream = new PrettyStream({mode: 'short'});
 
                 ghostPrettyStream.emit = function (eventName, data) {
-                    data.should.eql('[2016-07-01 00:00:00] \u001b[31mERROR\u001b[39m\n\u001b[31m\n\u001b[31mHey Jude!\u001b[39m\n\u001b[37mstack\u001b[39m\n\u001b[39m\n');
+                    data.should.eql('[2016-07-01 00:00:00] \u001b[31mERROR\u001b[39m\n\u001b[31m\n\u001b[31mCODE: HEY_JUDE\u001b[39m\n\u001b[31mMESSAGE: Hey Jude!\u001b[39m\n\n\u001b[37mstack\u001b[39m\n\u001b[39m\n');
                     done();
                 };
 
@@ -239,7 +239,8 @@ describe('Logging', function () {
                     msg: 'message',
                     err: {
                         message: 'Hey Jude!',
-                        stack: 'stack'
+                        stack: 'stack',
+                        code: 'HEY_JUDE'
                     }
                 }));
             });
@@ -273,7 +274,7 @@ describe('Logging', function () {
                 var ghostPrettyStream = new PrettyStream({mode: 'short'});
 
                 ghostPrettyStream.emit = function (eventName, data) {
-                    data.should.eql('\u001b[31mERROR\u001b[39m [2016-07-01 00:00:00] "GET /test" 400 39ms\n\u001b[31m\n\u001b[31mmessage\u001b[39m\n\u001b[37mstack\u001b[39m\n\u001b[39m\n');
+                    data.should.eql('\u001b[31mERROR\u001b[39m [2016-07-01 00:00:00] "GET /test" 400 39ms\n\u001b[31m\n\u001b[31mMESSAGE: message\u001b[39m\n\n\u001b[37mstack\u001b[39m\n\u001b[39m\n');
                     done();
                 };
 
@@ -319,7 +320,7 @@ describe('Logging', function () {
                 var ghostPrettyStream = new PrettyStream({mode: 'long'});
 
                 ghostPrettyStream.emit = function (eventName, data) {
-                    data.should.eql('[2016-07-01 00:00:00] \u001b[31mERROR\u001b[39m\n\u001b[31m\n\u001b[31mHey Jude!\u001b[39m\n\u001b[37mstack\u001b[39m\n\u001b[39m\n\u001b[90m\u001b[39m\n');
+                    data.should.eql('[2016-07-01 00:00:00] \u001b[31mERROR\u001b[39m\n\u001b[31m\n\u001b[31mMESSAGE: Hey Jude!\u001b[39m\n\n\u001b[37mstack\u001b[39m\n\u001b[39m\n\u001b[90m\u001b[39m\n');
                     done();
                 };
 
@@ -363,7 +364,7 @@ describe('Logging', function () {
                 var ghostPrettyStream = new PrettyStream({mode: 'long'});
 
                 ghostPrettyStream.emit = function (eventName, data) {
-                    data.should.eql('\u001b[31mERROR\u001b[39m [2016-07-01 00:00:00] "GET /test" 400 39ms\n\u001b[31m\n\u001b[31mHey Jude!\u001b[39m\n\u001b[37mstack\u001b[39m\n\u001b[39m\n\u001b[90m\n\u001b[33mREQ\u001b[39m\n\u001b[32moriginalUrl: \u001b[39m/test\n\u001b[32mmethod: \u001b[39m     GET\n\u001b[32mbody: \u001b[39m\n  \u001b[32ma: \u001b[39mb\n\n\u001b[33mRES\u001b[39m\n\u001b[32mresponseTime: \u001b[39m39ms\n\u001b[39m\n');
+                    data.should.eql('\u001b[31mERROR\u001b[39m [2016-07-01 00:00:00] "GET /test" 400 39ms\n\u001b[31m\n\u001b[31mMESSAGE: Hey Jude!\u001b[39m\n\n\u001b[37mstack\u001b[39m\n\u001b[39m\n\u001b[90m\n\u001b[33mREQ\u001b[39m\n\u001b[32moriginalUrl: \u001b[39m/test\n\u001b[32mmethod: \u001b[39m     GET\n\u001b[32mbody: \u001b[39m\n  \u001b[32ma: \u001b[39mb\n\n\u001b[33mRES\u001b[39m\n\u001b[32mresponseTime: \u001b[39m39ms\n\u001b[39m\n');
                     done();
                 };
 
