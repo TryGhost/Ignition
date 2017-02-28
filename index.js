@@ -1,7 +1,7 @@
 module.exports = {
-    config: require('./lib/config'),
-    debug:  require('./lib/debug'),
-    errors: require('./lib/errors'),
-    server: require('./lib/server'),
-    logging: require('./lib/logging')
+    get config() {return require('./lib/config');},
+    get debug() {return require('./lib/debug');},
+    get errors() {return require('./lib/errors');},
+    get server() {return require('./lib/server');},
+    get logging() {return require('./lib/logging');}
 };
