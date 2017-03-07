@@ -63,6 +63,21 @@ match: 'level:critical'
 match: 'statusCode:500|statusCode:403'
 ```
 
+### Utils
+
+```
+var errors = require('ghost-ignition');
+
+// you can pass any error and ignition will tell you if this is a custom ignition error
+errors.utils.isIgnitionError(err);
+
+// serialize an error to a specific format
+errors.utils.serialize(err, {format: 'jsonapi|oauth'});
+
+// deserialize specific format to error instance
+errors.utils.deserialize(err);
+```
+
 # Copyright & License
 
 Copyright (c) 2016-2017 Ghost Foundation - Released under the [MIT license](LICENSE).
