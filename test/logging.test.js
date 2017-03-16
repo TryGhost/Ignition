@@ -1,5 +1,6 @@
 var PrettyStream = require('../lib/logging/PrettyStream');
 var GhostLogger = require('../lib/logging/GhostLogger');
+var Writable = require('stream').Writable;
 var errors = require('../lib/errors');
 var sinon = require('sinon');
 var should = require('should');
@@ -212,11 +213,15 @@ describe('Logging', function () {
         describe('short mode', function () {
             it('data.msg', function (done) {
                 var ghostPrettyStream = new PrettyStream({mode: 'short'});
+                var writeStream = new Writable();
 
-                ghostPrettyStream.emit = function (eventName, data) {
+                writeStream._write = function (data) {
+                    data = data.toString();
                     data.should.eql('[2016-07-01 00:00:00] \u001b[36mINFO\u001b[39m Ghost starts now.\n');
                     done();
                 };
+
+                ghostPrettyStream.pipe(writeStream);
 
                 ghostPrettyStream.write(JSON.stringify({
                     time: '2016-07-01 00:00:00',
@@ -227,11 +232,15 @@ describe('Logging', function () {
 
             it('data.err', function (done) {
                 var ghostPrettyStream = new PrettyStream({mode: 'short'});
+                var writeStream = new Writable();
 
-                ghostPrettyStream.emit = function (eventName, data) {
+                writeStream._write = function (data) {
+                    data = data.toString();
                     data.should.eql('[2016-07-01 00:00:00] \u001b[31mERROR\u001b[39m\n\u001b[31m\n\u001b[31mCODE: HEY_JUDE\u001b[39m\n\u001b[31mMESSAGE: Hey Jude!\u001b[39m\n\n\u001b[37mstack\u001b[39m\n\u001b[39m\n');
                     done();
                 };
+
+                ghostPrettyStream.pipe(writeStream);
 
                 ghostPrettyStream.write(JSON.stringify({
                     time: '2016-07-01 00:00:00',
@@ -247,11 +256,15 @@ describe('Logging', function () {
 
             it('data.req && data.res', function (done) {
                 var ghostPrettyStream = new PrettyStream({mode: 'short'});
+                var writeStream = new Writable();
 
-                ghostPrettyStream.emit = function (eventName, data) {
+                writeStream._write = function (data) {
+                    data = data.toString();
                     data.should.eql('\u001b[36mINFO\u001b[39m [2016-07-01 00:00:00] "GET /test" 200 39ms\n');
                     done();
                 };
+
+                ghostPrettyStream.pipe(writeStream);
 
                 ghostPrettyStream.write(JSON.stringify({
                     time: '2016-07-01 00:00:00',
@@ -272,11 +285,15 @@ describe('Logging', function () {
 
             it('data.req && data.res && data.err', function (done) {
                 var ghostPrettyStream = new PrettyStream({mode: 'short'});
+                var writeStream = new Writable();
 
-                ghostPrettyStream.emit = function (eventName, data) {
+                writeStream._write = function (data) {
+                    data = data.toString();
                     data.should.eql('\u001b[31mERROR\u001b[39m [2016-07-01 00:00:00] "GET /test" 400 39ms\n\u001b[31m\n\u001b[31mMESSAGE: message\u001b[39m\n\n\u001b[37mstack\u001b[39m\n\u001b[39m\n');
                     done();
                 };
+
+                ghostPrettyStream.pipe(writeStream);
 
                 ghostPrettyStream.write(JSON.stringify({
                     time: '2016-07-01 00:00:00',
@@ -303,11 +320,15 @@ describe('Logging', function () {
         describe('long mode', function () {
             it('data.msg', function (done) {
                 var ghostPrettyStream = new PrettyStream({mode: 'long'});
+                var writeStream = new Writable();
 
-                ghostPrettyStream.emit = function (eventName, data) {
+                writeStream._write = function (data) {
+                    data = data.toString();
                     data.should.eql('[2016-07-01 00:00:00] \u001b[36mINFO\u001b[39m Ghost starts now.\n');
                     done();
                 };
+
+                ghostPrettyStream.pipe(writeStream);
 
                 ghostPrettyStream.write(JSON.stringify({
                     time: '2016-07-01 00:00:00',
@@ -318,11 +339,15 @@ describe('Logging', function () {
 
             it('data.err', function (done) {
                 var ghostPrettyStream = new PrettyStream({mode: 'long'});
+                var writeStream = new Writable();
 
-                ghostPrettyStream.emit = function (eventName, data) {
+                writeStream._write = function (data) {
+                    data = data.toString();
                     data.should.eql('[2016-07-01 00:00:00] \u001b[31mERROR\u001b[39m\n\u001b[31m\n\u001b[31mMESSAGE: Hey Jude!\u001b[39m\n\n\u001b[37mstack\u001b[39m\n\u001b[39m\n\u001b[90m\u001b[39m\n');
                     done();
                 };
+
+                ghostPrettyStream.pipe(writeStream);
 
                 ghostPrettyStream.write(JSON.stringify({
                     time: '2016-07-01 00:00:00',
@@ -336,11 +361,15 @@ describe('Logging', function () {
 
             it('data.req && data.res', function (done) {
                 var ghostPrettyStream = new PrettyStream({mode: 'long'});
+                var writeStream = new Writable();
 
-                ghostPrettyStream.emit = function (eventName, data) {
+                writeStream._write = function (data) {
+                    data = data.toString();
                     data.should.eql('\u001b[36mINFO\u001b[39m [2016-07-01 00:00:00] "GET /test" 200 39ms\n\u001b[90m\n\u001b[33mREQ\u001b[39m\n\u001b[32mip: \u001b[39m         127.0.01\n\u001b[32moriginalUrl: \u001b[39m/test\n\u001b[32mmethod: \u001b[39m     GET\n\u001b[32mbody: \u001b[39m\n  \u001b[32ma: \u001b[39mb\n\n\u001b[33mRES\u001b[39m\n\u001b[32mresponseTime: \u001b[39m39ms\n\u001b[39m\n');
                     done();
                 };
+
+                ghostPrettyStream.pipe(writeStream);
 
                 ghostPrettyStream.write(JSON.stringify({
                     time: '2016-07-01 00:00:00',
@@ -362,11 +391,15 @@ describe('Logging', function () {
 
             it('data.req && data.res && data.err', function (done) {
                 var ghostPrettyStream = new PrettyStream({mode: 'long'});
+                var writeStream = new Writable();
 
-                ghostPrettyStream.emit = function (eventName, data) {
+                writeStream._write = function (data) {
+                    data = data.toString();
                     data.should.eql('\u001b[31mERROR\u001b[39m [2016-07-01 00:00:00] "GET /test" 400 39ms\n\u001b[31m\n\u001b[31mMESSAGE: Hey Jude!\u001b[39m\n\n\u001b[37mstack\u001b[39m\n\u001b[39m\n\u001b[90m\n\u001b[33mREQ\u001b[39m\n\u001b[32moriginalUrl: \u001b[39m/test\n\u001b[32mmethod: \u001b[39m     GET\n\u001b[32mbody: \u001b[39m\n  \u001b[32ma: \u001b[39mb\n\n\u001b[33mRES\u001b[39m\n\u001b[32mresponseTime: \u001b[39m39ms\n\u001b[39m\n');
                     done();
                 };
+
+                ghostPrettyStream.pipe(writeStream);
 
                 ghostPrettyStream.write(JSON.stringify({
                     time: '2016-07-01 00:00:00',
