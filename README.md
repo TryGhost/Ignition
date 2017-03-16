@@ -1,4 +1,6 @@
-# Ignition
+# Ignition 
+[![Build Status](https://travis-ci.org/TryGhost/Ignition.svg?branch=master)](https://travis-ci.org/TryGhost/Ignition)
+
 Basic configuration and tooling shared across applications
 
 
