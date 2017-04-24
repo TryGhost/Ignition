@@ -33,13 +33,15 @@ describe('Logging', function () {
             should.not.exist(data.req.body.password);
             should.not.exist(data.req.body.data.attributes.pin);
             should.exist(data.req.body.data.attributes.test);
+            should.exist(data.err);
+            should.exist(data.err.errorDetails);
             done();
         });
 
         var ghostLogger = new GhostLogger();
 
         ghostLogger.error({
-            err: new Error('message'),
+            err: new errors.IncorrectUsageError({message: 'Hallo', errorDetails: []}),
             req: {body: {password: '12345678', data: {attributes: {pin: '1234', test: 'ja'}}}},
             res: {headers: {}}
         });
@@ -418,6 +420,34 @@ describe('Logging', function () {
                     err: {
                         message: 'Hey Jude!',
                         stack: 'stack'
+                    }
+                }));
+            });
+
+            it('data.err contains error details', function (done) {
+                var ghostPrettyStream = new PrettyStream({mode: 'long'});
+                var writeStream = new Writable();
+
+                writeStream._write = function (data) {
+                    data = data.toString();
+                    data.should.eql('[2016-07-01 00:00:00] \u001b[31mERROR\u001b[39m\n\u001b[31m\n\u001b[31mMESSAGE: Hey Jude!\u001b[39m\n\n\u001b[31mERROR DETAILS:\n    level:    error\n    rule:     Templates must contain valid Handlebars.\n    failures: \n      - \n        ref:     default.hbs\n        message: Missing helper: "image"\n    code:     GS005-TPL-ERR\u001b[39m\n\n\u001b[37mstack\u001b[39m\n\u001b[39m\n\u001b[90m\u001b[39m\n');
+                    done();
+                };
+
+                ghostPrettyStream.pipe(writeStream);
+
+                ghostPrettyStream.write(JSON.stringify({
+                    time: '2016-07-01 00:00:00',
+                    level: 50,
+                    err: {
+                        message: 'Hey Jude!',
+                        stack: 'stack',
+                        errorDetails: [{
+                            level: 'error',
+                            rule: 'Templates must contain valid Handlebars.',
+                            failures: [{ref: 'default.hbs', message: 'Missing helper: "image"'}],
+                            code: 'GS005-TPL-ERR'
+                        }]
                     }
                 }));
             });
