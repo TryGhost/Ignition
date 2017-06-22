@@ -26,6 +26,7 @@
     "caller": "1.0.1",
     "debug": "^2.2.0",
     "find-root": "1.0.0",
+    "fs-extra": "^3.0.1",
     "json-stringify-safe": "5.0.1",
     "lodash": "^4.16.4",
     "moment": "^2.15.2",
