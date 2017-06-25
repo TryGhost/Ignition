@@ -36,8 +36,7 @@ describe('Config', function () {
         expect(config.get('should-be-used')).to.be.true;
     });
 
-    // TODO: make it possible for this to pass
-    it.skip('loads root config when called from a script in a subdirectory', function () {
+    it('loads root config when called from a script in a subdirectory', function () {
         processCWDStub = sandbox.stub(process, 'cwd').returns(fixturePath('scripts'));
         var config = initConfig(true);
 
