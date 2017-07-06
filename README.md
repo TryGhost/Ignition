@@ -29,8 +29,15 @@ logging.debug('this is a debug mode');
 ```
 
 ### env parameter
-You can use `LEVEL=error` or `MODE=long`.
 
+Each config option, can be passed as an environment variable:
+E.g. `LEVEL=error` or `MODE=long`.
+
+There is also a special env var
+
+`LOIN=true` 
+
+Which sets the LEVEL to info and the MODE to long, for maximum output.
 
 ### Logging into file
 We log JSON format into file. This is very easy to forward and easy to interprete.
