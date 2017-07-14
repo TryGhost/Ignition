@@ -1,6 +1,7 @@
 var PrettyStream = require('../lib/logging/PrettyStream');
 var GhostLogger = require('../lib/logging/GhostLogger');
 var Writable = require('stream').Writable;
+var includes = require('lodash/includes');
 var errors = require('../lib/errors');
 var sinon = require('sinon');
 var should = require('should');
@@ -209,6 +210,28 @@ describe('Logging', function () {
 
         ghostLogger.error(new errors.NotFoundError());
         Bunyan2Loggly.prototype.write.called.should.eql(true);
+    });
+
+    it('automatically adds stdout to transports if stderr transport is configured and stdout isn\'t', function () {
+        var ghostLogger = new GhostLogger({
+            transports: ['stderr']
+        });
+
+        should.equal(includes(ghostLogger.transports, 'stderr'), true, 'stderr transport should exist');
+        should.equal(includes(ghostLogger.transports, 'stdout'), true, 'stdout transport should exist');
+    });
+
+    it('logs errors only to stderr if both stdout and stderr transports are defined', function () {
+        var stderr = sandbox.spy(process.stderr, 'write');
+        var stdout = sandbox.spy(process.stdout, 'write');
+
+        var ghostLogger = new GhostLogger({
+            transports: ['stdout', 'stderr']
+        });
+
+        ghostLogger.error('some error');
+        stderr.calledOnce.should.be.true();
+        stdout.called.should.be.false('stdout should not be written to');
     });
 
     describe('PrettyStream', function () {
