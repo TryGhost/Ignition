@@ -18,7 +18,7 @@ var logging = require('ghost-ignition').logging({
 
 mode         : long|short (default is `short`) - defines the output volume (helpful when logging requests)
 level        : info|error|debug (default is `info`)
-transports   : stdout|file (default is `['stdout']`
+transports   : stdout|file|stderr (default is `['stdout']`)
 path         : is used when file transport is enabled (default is `process.cwd()`)
 
 logging.info({req: req, res: res});
