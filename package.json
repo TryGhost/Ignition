@@ -4,8 +4,8 @@
   "description": "Basic configuration and tooling shared across applications",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint lib test",
-    "test": "npm run lint && mocha -- $(find test -name '*.test.js')"
+    "lint": "./node_modules/.bin/eslint lib test",
+    "test": "npm run lint && ./node_modules/.bin/mocha -- $(find test -name '*.test.js')"
   },
   "files": [
     "index.js",
