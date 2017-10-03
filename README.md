@@ -53,7 +53,7 @@ You can send your logs to loggly by configuring the logger like this:
 
 ```
 var logging = require('ghost-ignition').logging({
-    domain: 'example.com,
+    domain: 'example.com',
     env: 'production',
     mode: 'long',
     level: 'info',
@@ -70,6 +70,26 @@ var logging = require('ghost-ignition').logging({
 Example for match:
 match: 'level:critical'
 match: 'statusCode:500|statusCode:403'
+```
+
+### Stackdriver Stream
+You can send your logs to stackdriver by configuring the logger like this:
+
+```
+var logging = require('ghost-ignition').loggign({
+  domain: 'example.com',
+  env: 'production',
+  mode: 'long',
+  level: 'info',
+  transports: ['file', 'stackdriver'],
+  stackdriver: {
+    match: 'regex string',
+    level: 'info',
+    // if you need project/auth
+    projectId: 'your-google-cloud-project-id',
+    keyFilename: 'your-json-keyfile'
+  }
+});
 ```
 
 ### Utils
