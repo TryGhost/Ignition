@@ -41,3 +41,6 @@ package-lock.json
 .idea/*
 *.iml
 *.sublime-*
+
+# OSX
+.DS_Store
