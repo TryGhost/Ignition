@@ -7,6 +7,14 @@
     "lint": "eslint lib test",
     "test": "npm run lint && mocha -- $(find test -name '*.test.js')"
   },
+  "keywords": [
+    "ghost",
+    "tooling",
+    "config",
+    "errors",
+    "nconf",
+    "configuration"
+  ],
   "files": [
     "index.js",
     "lib"
