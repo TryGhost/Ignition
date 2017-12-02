@@ -475,5 +475,24 @@ describe('Logging', function () {
                 }));
             });
         });
+
+        it('color-free', function (done) {
+            var ghostPrettyStream = new PrettyStream({mode: 'short', color: false});
+            var writeStream = new Writable();
+
+            writeStream._write = function (data) {
+                data = data.toString();
+                data.should.eql('[2016-07-01 00:00:00] INFO Ghost starts now.\n');
+                done();
+            };
+
+            ghostPrettyStream.pipe(writeStream);
+
+            ghostPrettyStream.write(JSON.stringify({
+                time: '2016-07-01 00:00:00',
+                level: 30,
+                msg: 'Ghost starts now.'
+            }));
+        });
     });
 });
