@@ -72,6 +72,8 @@ match: 'level:critical'
 match: 'statusCode:500|statusCode:403'
 ```
 
+NOTE: The `loggly` stream will only send error logs. Furthermore, you can only match a string in the error object.
+
 ### Utils
 
 ```
