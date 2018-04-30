@@ -22,7 +22,7 @@ describe('Config', function () {
         processCWDStub = sandbox.spy(process, 'cwd');
         var config = initConfig(true);
 
-        expect(processCWDStub.firstCall.returnValue).to.match(/Ignition$/);
+        expect(processCWDStub.firstCall.returnValue).to.match(/Ignition/i);
         expect(config.get('test')).to.be.undefined;
         expect(config.get('should-be-used')).to.be.undefined;
     });
@@ -31,7 +31,7 @@ describe('Config', function () {
         processCWDStub = sandbox.stub(process, 'cwd').returns(fixturePath());
         var config = initConfig(true);
 
-        expect(config.stores.file.file).to.match(/Ignition\/test\/config-fixtures\/config\.development\.json$/);
+        expect(config.stores.file.file).to.match(/Ignition\/test\/config-fixtures\/config\.development\.json$/i);
         expect(config.get('test')).to.equal('root-config');
         expect(config.get('should-be-used')).to.be.true;
     });
@@ -40,7 +40,7 @@ describe('Config', function () {
         processCWDStub = sandbox.stub(process, 'cwd').returns(fixturePath('scripts'));
         var config = initConfig(true);
 
-        expect(config.stores.file.file).to.match(/Ignition\/test\/config-fixtures\/config\.development\.json$/);
+        expect(config.stores.file.file).to.match(/Ignition\/test\/config-fixtures\/config\.development\.json$/i);
         expect(config.get('test')).to.equal('root-config');
         expect(config.get('should-be-used')).to.be.true;
     });
