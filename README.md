@@ -89,6 +89,12 @@ errors.utils.serialize(err, {format: 'jsonapi|oauth'});
 errors.utils.deserialize(err);
 ```
 
+## Development
+
+### Publish
+
+- `yarn ship`
+
 # Copyright & License
 
 Copyright (c) 2016-2018 Ghost Foundation - Released under the [MIT license](LICENSE).

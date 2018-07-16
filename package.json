@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint lib test",
-    "test": "npm run lint && mocha -- $(find test -name '*.test.js')"
+    "test": "npm run lint && mocha -- $(find test -name '*.test.js')",
+    "posttest": "yarn lint",
+    "preship": "yarn test",
+    "ship": "STATUS=$(git status --porcelain); echo $STATUS; if [ -z \"$STATUS\" ]; then yarn publish && git push --follow-tags; fi"
   },
   "keywords": [
     "ghost",
@@ -49,8 +52,6 @@
   "devDependencies": {
     "chai": "3.5.0",
     "eslint": "4.19.1",
-    "grunt": "1.0.2",
-    "grunt-release": "0.14.0",
     "mocha": "3.0.1",
     "should": "11.1.1",
     "sinon": "1.17.6"
