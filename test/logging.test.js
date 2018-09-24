@@ -234,6 +234,71 @@ describe('Logging', function () {
         stdout.called.should.be.false('stdout should not be written to');
     });
 
+    describe('serialization', function () {
+        it('serializes error into correct object', function (done) {
+            const err = new errors.NotFoundError();
+
+            sandbox.stub(Bunyan2Loggly.prototype, 'write', function (data) {
+                should.exist(data.err);
+                data.err.id.should.eql(err.id)
+                data.err.domain.should.eql('localhost');
+                should.equal(data.err.code, null);
+                data.err.name.should.eql(err.errorType);
+                should.equal(data.err.statusCode, err.statusCode);
+                data.err.level.should.eql(err.level);
+                data.err.message.should.eql(err.message);
+                should.equal(data.err.context, undefined);
+                should.equal(data.err.help, undefined);
+                should.exist(data.err.stack);
+                should.equal(data.err.hideStack, undefined);
+                should.equal(data.err.errorDetails, undefined);
+                done();
+            });
+
+            const ghostLogger = new GhostLogger({
+                transports: ['loggly'],
+                loggly: {
+                    token: 'invalid',
+                    subdomain: 'invalid'
+                }
+            });
+            ghostLogger.error({
+                err,
+            });
+
+            Bunyan2Loggly.prototype.write.called.should.eql(true);
+        });
+
+        it('stringifies context when passed with the error', function (done) {
+            sandbox.stub(Bunyan2Loggly.prototype, 'write', function (data) {
+                should.exist(data.err);
+                data.err.context.should.eql("{\"a\":\"b\"}");
+                data.err.errorDetails.should.eql("{\"c\":\"d\"}");
+                done();
+            });
+
+            const ghostLogger = new GhostLogger({
+                transports: ['loggly'],
+                loggly: {
+                    token: 'invalid',
+                    subdomain: 'invalid'
+                }
+            });
+            ghostLogger.error({
+                err: new errors.NotFoundError({
+                    context: {
+                        a: 'b'
+                    },
+                    errorDetails: {
+                        c: 'd',
+                    }
+                }),
+            });
+
+            Bunyan2Loggly.prototype.write.called.should.eql(true);
+        });
+    })
+
     describe('PrettyStream', function () {
         describe('short mode', function () {
             it('data.msg', function (done) {
