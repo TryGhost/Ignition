@@ -247,11 +247,11 @@ describe('Logging', function () {
                 should.equal(data.err.statusCode, err.statusCode);
                 data.err.level.should.eql(err.level);
                 data.err.message.should.eql(err.message);
-                should.equal(data.err.context, undefined);
-                should.equal(data.err.help, undefined);
+                should.equal(data.err.context, 'empty');
+                should.equal(data.err.help, 'empty');
                 should.exist(data.err.stack);
                 should.equal(data.err.hideStack, undefined);
-                should.equal(data.err.errorDetails, undefined);
+                should.equal(data.err.errorDetails, 'empty');
                 done();
             });
 
@@ -269,11 +269,12 @@ describe('Logging', function () {
             Bunyan2Loggly.prototype.write.called.should.eql(true);
         });
 
-        it('stringifies context when passed with the error', function (done) {
+        it('stringifies meta properties', function (done) {
             sandbox.stub(Bunyan2Loggly.prototype, 'write', function (data) {
                 should.exist(data.err);
                 data.err.context.should.eql("{\"a\":\"b\"}");
                 data.err.errorDetails.should.eql("{\"c\":\"d\"}");
+                data.err.help.should.eql("{\"b\":\"a\"}");
                 done();
             });
 
@@ -290,7 +291,10 @@ describe('Logging', function () {
                         a: 'b'
                     },
                     errorDetails: {
-                        c: 'd',
+                        c: 'd'
+                    },
+                    help: {
+                        b: 'a'
                     }
                 }),
             });
