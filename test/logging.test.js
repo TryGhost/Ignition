@@ -247,11 +247,11 @@ describe('Logging', function () {
                 should.equal(data.err.statusCode, err.statusCode);
                 data.err.level.should.eql(err.level);
                 data.err.message.should.eql(err.message);
-                should.equal(data.err.context, 'empty');
-                should.equal(data.err.help, 'empty');
+                should.equal(data.err.context, undefined);
+                should.equal(data.err.help, undefined);
                 should.exist(data.err.stack);
                 should.equal(data.err.hideStack, undefined);
-                should.equal(data.err.errorDetails, 'empty');
+                should.equal(data.err.errorDetails, undefined);
                 done();
             });
 
