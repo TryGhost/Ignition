@@ -6,6 +6,7 @@ var errors = require('../lib/errors');
 var sinon = require('sinon');
 var should = require('should');
 var Bunyan2Loggly = require('bunyan-loggly');
+var GelfStream = require('gelf-stream').GelfStream;
 var sandbox = sinon.sandbox.create();
 
 describe('Logging', function () {
@@ -46,6 +47,40 @@ describe('Logging', function () {
             req: {body: {password: '12345678', data: {attributes: {pin: '1234', test: 'ja'}}}},
             res: {headers: {}}
         });
+    });
+
+    it('gelf writes a log message', function (done) {
+        sandbox.stub(GelfStream.prototype, '_write', function (data) {
+            should.exist(data.err);
+            done();
+        });
+
+        var ghostLogger = new GhostLogger({
+            transports: ['gelf'],
+            gelf: {
+                host: 'localhost',
+                port: 12201
+            }
+        });
+
+        ghostLogger.error(new errors.NotFoundError());
+        GelfStream.prototype._write.called.should.eql(true);
+    });
+
+    it('gelf does not write a log message', function () {
+        sandbox.spy(GelfStream.prototype, '_write');
+
+        var ghostLogger = new GhostLogger({
+            transports: ['gelf'],
+            level: 'warn',
+            gelf: {
+                host: 'localhost',
+                port: 12201
+            }
+        });
+
+        ghostLogger.info('testing');
+        GelfStream.prototype._write.called.should.eql(false);
     });
 
     it('loggly does only stream certain errors', function (done) {
