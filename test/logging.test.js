@@ -20,6 +20,8 @@ describe('Logging', function () {
     it('ensure stdout write properties', function (done) {
         sandbox.stub(PrettyStream.prototype, 'write', function (data) {
             should.exist(data.req);
+            should.exist(data.req.headers);
+            should.not.exist(data.req.body);
             should.exist(data.res);
             should.exist(data.err);
             data.name.should.eql('testLogging');
@@ -28,14 +30,15 @@ describe('Logging', function () {
         });
 
         var ghostLogger = new GhostLogger({name: 'testLogging'});
-        ghostLogger.info({err: new Error('message'), req: {body: {}}, res: {headers: {}}});
+        ghostLogger.info({err: new Error('message'), req: {body: {}, headers: {}}, res: {headers: {}}});
     });
 
     it('remove sensitive data', function (done) {
         sandbox.stub(PrettyStream.prototype, 'write', function (data) {
-            should.not.exist(data.req.body.password);
-            should.not.exist(data.req.body.data.attributes.pin);
-            should.exist(data.req.body.data.attributes.test);
+            should.not.exist(data.req.body);
+            should.exist(data.req.headers);
+            should.not.exist(data.req.headers.authorization);
+            should.exist(data.req.headers.Connection);
             should.exist(data.err);
             should.exist(data.err.errorDetails);
             done();
@@ -45,7 +48,21 @@ describe('Logging', function () {
 
         ghostLogger.error({
             err: new errors.IncorrectUsageError({message: 'Hallo', errorDetails: []}),
-            req: {body: {password: '12345678', data: {attributes: {pin: '1234', test: 'ja'}}}},
+            req: {
+                body: {
+                    password: '12345678',
+                    data: {
+                        attributes: {
+                            pin: '1234',
+                            test: 'ja'
+                        }
+                    }
+                },
+                headers: {
+                    authorization: 'secret',
+                    Connection: 'keep-alive'
+                }
+            },
             res: {headers: {}}
         });
     });
