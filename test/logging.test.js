@@ -22,11 +22,12 @@ describe('Logging', function () {
             should.exist(data.req);
             should.exist(data.res);
             should.exist(data.err);
+            data.name.should.eql('testLogging');
             data.msg.should.eql('message');
             done();
         });
 
-        var ghostLogger = new GhostLogger();
+        var ghostLogger = new GhostLogger({name: 'testLogging'});
         ghostLogger.info({err: new Error('message'), req: {body: {}}, res: {headers: {}}});
     });
 
