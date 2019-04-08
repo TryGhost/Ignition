@@ -68,6 +68,22 @@ describe('Logging', function () {
         GelfStream.prototype._write.called.should.eql(true);
     });
 
+    it('gelf does not write a log message', function () {
+        sandbox.spy(GelfStream.prototype, '_write');
+
+        var ghostLogger = new GhostLogger({
+            transports: ['gelf'],
+            level: 'warn',
+            gelf: {
+                host: 'localhost',
+                port: 12201
+            }
+        });
+
+        ghostLogger.info('testing');
+        GelfStream.prototype._write.called.should.eql(false);
+    });
+
     it('loggly does only stream certain errors', function (done) {
         sandbox.stub(Bunyan2Loggly.prototype, 'write', function (data) {
             should.exist(data.err);
