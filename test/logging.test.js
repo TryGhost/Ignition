@@ -33,18 +33,19 @@ describe('Logging', function () {
         ghostLogger.info({err: new Error('message'), req: {body: {}, headers: {}}, res: {headers: {}}});
     });
 
-    it('remove sensitive data', function (done) {
+    it('redact sensitive data with request body', function (done) {
         sandbox.stub(PrettyStream.prototype, 'write', function (data) {
-            should.not.exist(data.req.body);
-            should.exist(data.req.headers);
-            should.not.exist(data.req.headers.authorization);
-            should.exist(data.req.headers.Connection);
+            should.exist(data.req.body.password);
+            data.req.body.password.should.eql('**REDACTED**');
+            should.exist(data.req.body.data.attributes.pin);
+            data.req.body.data.attributes.pin.should.eql('**REDACTED**');
+            should.exist(data.req.body.data.attributes.test);
             should.exist(data.err);
             should.exist(data.err.errorDetails);
             done();
         });
 
-        var ghostLogger = new GhostLogger();
+        var ghostLogger = new GhostLogger({logBody: true});
 
         ghostLogger.error({
             err: new errors.IncorrectUsageError({message: 'Hallo', errorDetails: []}),
