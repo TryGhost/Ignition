@@ -1,4 +1,4 @@
-# Ignition 
+# Ignition
 [![Build Status](https://travis-ci.org/TryGhost/Ignition.svg?branch=master)](https://travis-ci.org/TryGhost/Ignition)
 
 Basic configuration and tooling shared across applications
@@ -26,6 +26,7 @@ logging.info('Info');
 logging.error(new Error());
 logging.warn('this', 'is', 'a', 'warning');
 logging.debug('this is a debug mode');
+logging.warn(err, 'Caught an error from service X.');
 ```
 
 ### env parameter
@@ -35,7 +36,7 @@ E.g. `LEVEL=error` or `MODE=long`.
 
 There is also a special env var
 
-`LOIN=true` 
+`LOIN=true`
 
 Which sets the LEVEL to info and the MODE to long, for maximum output.
 
@@ -46,7 +47,7 @@ By default we create two log files:
 - all log entries: contains everything
 
 You can easily make the log files readable by calling:
-`cat your.log | bunyan`
+`bunyan your.log`
 
 ### Loggly Stream
 You can send your logs to loggly by configuring the logger like this:
@@ -73,6 +74,23 @@ match: 'statusCode:500|statusCode:403'
 ```
 
 NOTE: The `loggly` stream will only send error logs. Furthermore, you can only match a string in the error object.
+
+### GELF UDP Stream
+You can send your logs to a GELF UDP collector by configuring the logger like this:
+
+```
+var logging = require('ghost-ignition').logging({
+    domain: 'example.com,
+    env: 'production',
+    mode: 'long',
+    level: 'info',
+    transports: ['gelf'],
+    gelf: {
+      host: 'gelf.example.com', // Default: '127.0.0.1'
+      post: 12345               // Default: 12201
+    }
+});
+```
 
 ### Utils
 
