@@ -33,6 +33,44 @@ describe('Logging', function () {
         ghostLogger.info({err: new Error('message'), req: {body: {}, headers: {}}, res: {headers: {}}});
     });
 
+    it('ensure stdout write properties with custom message', function (done) {
+        sandbox.stub(PrettyStream.prototype, 'write', function (data) {
+            should.exist(data);
+            data.name.should.eql('Log');
+            data.msg.should.eql('A handled error! Original message');
+            done();
+        });
+
+        var ghostLogger = new GhostLogger();
+        ghostLogger.warn('A handled error!', new Error('Original message'));
+    });
+
+    it('ensure stdout write properties with object', function (done) {
+        sandbox.stub(PrettyStream.prototype, 'write', function (data) {
+            should.exist(data.err);
+            data.test.should.eql(2);
+            data.name.should.eql('Log');
+            data.msg.should.eql('Got an error from 3rd party service X! Resource could not be found.');
+            done();
+        });
+
+        var ghostLogger = new GhostLogger();
+        ghostLogger.error({err: new errors.NotFoundError(), test: 2}, 'Got an error from 3rd party service X!');
+    });
+
+    it('ensure stdout write properties with util.format', function (done) {
+        sandbox.stub(PrettyStream.prototype, 'write', function (data) {
+            should.exist(data);
+            data.name.should.eql('Log');
+            data.msg.should.eql('Message with format');
+            done();
+        });
+
+        var ghostLogger = new GhostLogger();
+        var thing = 'format';
+        ghostLogger.info('Message with %s', thing);
+    });
+
     it('redact sensitive data with request body', function (done) {
         sandbox.stub(PrettyStream.prototype, 'write', function (data) {
             should.exist(data.req.body.password);
@@ -384,7 +422,7 @@ describe('Logging', function () {
 
                 writeStream._write = function (data) {
                     data = data.toString();
-                    data.should.eql('[2016-07-01 00:00:00] \u001b[31mERROR\u001b[39m\n\u001b[31m\n\u001b[31mHey Jude!\u001b[39m\n\n\u001b[1m\u001b[37mError Code: \u001b[39m\u001b[22m\n    \u001b[90mHEY_JUDE\u001b[39m\n\n\u001b[90m----------------------------------------\u001b[39m\n\n\u001b[90mstack\u001b[39m\n\u001b[39m\n');
+                    data.should.eql('[2016-07-01 00:00:00] \u001b[31mERROR\u001b[39m message\n\u001b[31m\n\u001b[31mHey Jude!\u001b[39m\n\n\u001b[1m\u001b[37mError Code: \u001b[39m\u001b[22m\n    \u001b[90mHEY_JUDE\u001b[39m\n\n\u001b[90m----------------------------------------\u001b[39m\n\n\u001b[90mstack\u001b[39m\n\u001b[39m\n');
                     done();
                 };
 
