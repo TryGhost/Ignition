@@ -32,7 +32,7 @@
     "url": "https://github.com/TryGhost/Ignition/issues"
   },
   "engine": {
-    "node": "^10.13.0"
+    "node": "^10.13.0 || ^12.10.0"
   },
   "homepage": "https://github.com/TryGhost/Ignition#readme",
   "dependencies": {
