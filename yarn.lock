@@ -1396,9 +1396,13 @@ util-deprecate@~1.0.1:
   dependencies:
     inherits "2.0.3"
 
-uuid@^3.0.0, uuid@^3.3.2:
+uuid@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
+
+uuid@^7.0.0:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.1.tgz#95ed6ff3d8c881cbf85f0f05cc3915ef994818ef"
 
 verror@1.10.0:
   version "1.10.0"
