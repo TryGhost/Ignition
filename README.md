@@ -1,5 +1,6 @@
 # Ignition
-[![Build Status](https://travis-ci.org/TryGhost/Ignition.svg?branch=master)](https://travis-ci.org/TryGhost/Ignition)
+
+![Build Status](https://github.com/TryGhost/Ignition/workflows/Test/badge.svg?branch=master)
 
 Basic configuration and tooling shared across applications
 
