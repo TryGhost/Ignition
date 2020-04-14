@@ -7,7 +7,7 @@ var sinon = require('sinon');
 var should = require('should');
 var Bunyan2Loggly = require('bunyan-loggly');
 var GelfStream = require('gelf-stream').GelfStream;
-var sandbox = sinon.sandbox.create();
+var sandbox = sinon.createSandbox();
 
 describe('Logging', function () {
     afterEach(function () {
@@ -18,7 +18,7 @@ describe('Logging', function () {
     // they are trying to find the err.message attribute and forward this as msg property
     // our PrettyStream implementation can't handle this case
     it('ensure stdout write properties', function (done) {
-        sandbox.stub(PrettyStream.prototype, 'write', function (data) {
+        sandbox.stub(PrettyStream.prototype, 'write').callsFake(function (data) {
             should.exist(data.req);
             should.exist(data.req.headers);
             should.not.exist(data.req.body);
@@ -34,7 +34,7 @@ describe('Logging', function () {
     });
 
     it('ensure stdout write properties with custom message', function (done) {
-        sandbox.stub(PrettyStream.prototype, 'write', function (data) {
+        sandbox.stub(PrettyStream.prototype, 'write').callsFake(function (data) {
             should.exist(data);
             data.name.should.eql('Log');
             data.msg.should.eql('A handled error! Original message');
@@ -46,7 +46,7 @@ describe('Logging', function () {
     });
 
     it('ensure stdout write properties with object', function (done) {
-        sandbox.stub(PrettyStream.prototype, 'write', function (data) {
+        sandbox.stub(PrettyStream.prototype, 'write').callsFake(function (data) {
             should.exist(data.err);
             data.test.should.eql(2);
             data.name.should.eql('Log');
@@ -59,7 +59,7 @@ describe('Logging', function () {
     });
 
     it('ensure stdout write properties with util.format', function (done) {
-        sandbox.stub(PrettyStream.prototype, 'write', function (data) {
+        sandbox.stub(PrettyStream.prototype, 'write').callsFake(function (data) {
             should.exist(data);
             data.name.should.eql('Log');
             data.msg.should.eql('Message with format');
@@ -72,7 +72,7 @@ describe('Logging', function () {
     });
 
     it('redact sensitive data with request body', function (done) {
-        sandbox.stub(PrettyStream.prototype, 'write', function (data) {
+        sandbox.stub(PrettyStream.prototype, 'write').callsFake(function (data) {
             should.exist(data.req.body.password);
             data.req.body.password.should.eql('**REDACTED**');
             should.exist(data.req.body.data.attributes.pin);
@@ -107,7 +107,7 @@ describe('Logging', function () {
     });
 
     it('gelf writes a log message', function (done) {
-        sandbox.stub(GelfStream.prototype, '_write', function (data) {
+        sandbox.stub(GelfStream.prototype, '_write').callsFake(function (data) {
             should.exist(data.err);
             done();
         });
@@ -141,7 +141,7 @@ describe('Logging', function () {
     });
 
     it('loggly does only stream certain errors', function (done) {
-        sandbox.stub(Bunyan2Loggly.prototype, 'write', function (data) {
+        sandbox.stub(Bunyan2Loggly.prototype, 'write').callsFake(function (data) {
             should.exist(data.err);
             done();
         });
@@ -224,7 +224,7 @@ describe('Logging', function () {
     });
 
     it('loggly does only stream certain errors', function (done) {
-        sandbox.stub(Bunyan2Loggly.prototype, 'write', function (data) {
+        sandbox.stub(Bunyan2Loggly.prototype, 'write').callsFake(function (data) {
             should.exist(data.err);
             done();
         });
@@ -243,7 +243,7 @@ describe('Logging', function () {
     });
 
     it('loggly does only stream certain errors', function (done) {
-        sandbox.stub(Bunyan2Loggly.prototype, 'write', function (data) {
+        sandbox.stub(Bunyan2Loggly.prototype, 'write').callsFake(function (data) {
             should.exist(data.err);
             done();
         });
@@ -262,7 +262,7 @@ describe('Logging', function () {
     });
 
     it('loggly does only stream certain errors', function (done) {
-        sandbox.stub(Bunyan2Loggly.prototype, 'write', function (data) {
+        sandbox.stub(Bunyan2Loggly.prototype, 'write').callsFake(function (data) {
             should.exist(data.err);
             should.exist(data.req);
             should.exist(data.res);
@@ -287,7 +287,7 @@ describe('Logging', function () {
     });
 
     it('loggly does only stream certain errors: match is not defined -> log everything', function (done) {
-        sandbox.stub(Bunyan2Loggly.prototype, 'write', function (data) {
+        sandbox.stub(Bunyan2Loggly.prototype, 'write').callsFake(function (data) {
             should.exist(data.err);
             done();
         });
@@ -330,7 +330,7 @@ describe('Logging', function () {
         it('serializes error into correct object', function (done) {
             const err = new errors.NotFoundError();
 
-            sandbox.stub(Bunyan2Loggly.prototype, 'write', function (data) {
+            sandbox.stub(Bunyan2Loggly.prototype, 'write').callsFake(function (data) {
                 should.exist(data.err);
                 data.err.id.should.eql(err.id)
                 data.err.domain.should.eql('localhost');
@@ -362,7 +362,7 @@ describe('Logging', function () {
         });
 
         it('stringifies meta properties', function (done) {
-            sandbox.stub(Bunyan2Loggly.prototype, 'write', function (data) {
+            sandbox.stub(Bunyan2Loggly.prototype, 'write').callsFake(function (data) {
                 should.exist(data.err);
                 data.err.context.should.eql("{\"a\":\"b\"}");
                 data.err.errorDetails.should.eql("{\"c\":\"d\"}");

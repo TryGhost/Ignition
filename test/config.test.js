@@ -5,7 +5,7 @@ var join = require('path').join;
 
 var initConfig = require('../lib/config');
 
-var sandbox = sinon.sandbox.create();
+var sandbox = sinon.createSandbox();
 
 describe('Config', function () {
     var processCWDStub;
