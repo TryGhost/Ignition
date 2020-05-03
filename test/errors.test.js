@@ -24,6 +24,7 @@ describe('Errors Public API', function () {
         expect(errors).to.have.ownProperty('TokenRevocationError');
         expect(errors).to.have.ownProperty('TooManyRequestsError');
         expect(errors).to.have.ownProperty('UnauthorizedError');
+        expect(errors).to.have.ownProperty('PasswordResetRequiredError');
         expect(errors).to.have.ownProperty('ValidationError');
         expect(errors).to.have.ownProperty('VersionMismatchError');
         expect(errors).to.have.ownProperty('UnsupportedMediaTypeError');
