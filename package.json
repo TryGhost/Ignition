@@ -45,7 +45,7 @@
     "gelf-stream": "1.1.1",
     "json-stringify-safe": "5.0.1",
     "lodash": "4.17.15",
-    "moment": "2.25.2",
+    "moment": "2.25.3",
     "nconf": "0.10.0",
     "prettyjson": "1.2.1",
     "uuid": "7.0.3"
