@@ -30,7 +30,7 @@ describe('Logging', function () {
         });
 
         var ghostLogger = new GhostLogger({name: 'testLogging'});
-        ghostLogger.info({err: new Error('message'), req: {body: {}, headers: {}}, res: {headers: {}}});
+        ghostLogger.info({err: new Error('message'), req: {body: {}, headers: {}}, res: {getHeaders: () => ({})}});
     });
 
     it('ensure stdout write properties with custom message', function (done) {
@@ -102,7 +102,7 @@ describe('Logging', function () {
                     Connection: 'keep-alive'
                 }
             },
-            res: {headers: {}}
+            res: {getHeaders: () => ({})}
         });
     });
 
@@ -281,7 +281,7 @@ describe('Logging', function () {
         ghostLogger.error({
             err: new errors.NotFoundError(),
             req: {body: {password: '12345678', data: {attributes: {pin: '1234', test: 'ja'}}}},
-            res: {headers: {}}
+            res: {getHeaders: () => ({})}
         });
         Bunyan2Loggly.prototype.write.called.should.eql(true);
     });
