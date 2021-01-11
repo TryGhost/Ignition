@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/TryGhost/Ignition#readme",
   "dependencies": {
-    "bunyan": "1.8.14",
+    "bunyan": "1.8.15",
     "bunyan-loggly": "1.4.2",
     "caller": "1.0.1",
     "debug": "4.3.1",
