@@ -51,6 +51,7 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
+    "@sam-lord/elasticsearch-bunyan": "^0.0.5",
     "chai": "4.2.0",
     "eslint": "7.18.0",
     "mocha": "8.2.1",

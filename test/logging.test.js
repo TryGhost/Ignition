@@ -7,6 +7,7 @@ var sinon = require('sinon');
 var should = require('should');
 var Bunyan2Loggly = require('bunyan-loggly');
 var GelfStream = require('gelf-stream').GelfStream;
+var ElasticSearch = require('@sam-lord/elasticsearch-bunyan');
 var sandbox = sinon.createSandbox();
 
 describe('Logging', function () {
@@ -302,6 +303,42 @@ describe('Logging', function () {
 
         ghostLogger.error(new errors.NotFoundError());
         Bunyan2Loggly.prototype.write.called.should.eql(true);
+    });
+
+    it('elasticsearch writes a log message', function (done) {
+        sandbox.stub(ElasticSearch.prototype, 'write').callsFake(function (data) {
+            should.exist(data.err);
+            done();
+        });
+
+        var ghostLogger = new GhostLogger({
+            transports: ['elasticsearch'],
+            elasticsearch: {
+                host: 'https://elastic.ghost.org:9200',
+                username: 'elastic',
+                password: '**REDACTED**'
+            }
+        });
+
+        ghostLogger.error(new errors.NotFoundError());
+        ElasticSearch.prototype.write.called.should.eql(true);
+    });
+
+    it('elasticsearch does not write a log message', function () {
+        sandbox.spy(ElasticSearch.prototype, 'write');
+
+        var ghostLogger = new GhostLogger({
+            transports: ['elasticsearch'],
+            elasticsearch: {
+                host: 'https://elastic.ghost.org:9200',
+                username: 'elastic',
+                password: '**REDACTED**',
+                level: 'error'
+            }
+        });
+
+        ghostLogger.info('testing');
+        ElasticSearch.prototype.write.called.should.eql(false);
     });
 
     it('automatically adds stdout to transports if stderr transport is configured and stdout isn\'t', function () {
