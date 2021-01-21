@@ -50,7 +50,7 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@sam-lord/elasticsearch-bunyan@^0.0.5":
+"@sam-lord/elasticsearch-bunyan@0.0.5":
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/@sam-lord/elasticsearch-bunyan/-/elasticsearch-bunyan-0.0.5.tgz#0e79654974b7c7f674c02ea0b3ff79adccea5c9a"
   integrity sha512-dVRHMjtIdF90teoClns5Wc7ZNfKu55ykOmCfLKZeLAGGaNHnCrmaKAK2i0gL4C6XMNzJpzM+NqkW7u4ck9Dn6g==
