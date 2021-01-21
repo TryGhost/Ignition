@@ -36,6 +36,7 @@
   },
   "homepage": "https://github.com/TryGhost/Ignition#readme",
   "dependencies": {
+    "@sam-lord/elasticsearch-bunyan": "^0.0.5",
     "bunyan": "1.8.15",
     "bunyan-loggly": "1.4.2",
     "caller": "1.0.1",
@@ -51,7 +52,6 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@sam-lord/elasticsearch-bunyan": "0.0.5",
     "chai": "4.2.0",
     "eslint": "7.18.0",
     "mocha": "8.2.1",
