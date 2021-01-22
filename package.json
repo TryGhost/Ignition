@@ -1,6 +1,6 @@
 {
   "name": "ghost-ignition",
-  "version": "4.4.1",
+  "version": "4.4.2",
   "description": "Basic configuration and tooling shared across applications",
   "main": "index.js",
   "scripts": {
