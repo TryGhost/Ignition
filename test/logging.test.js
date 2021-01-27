@@ -7,7 +7,7 @@ var sinon = require('sinon');
 var should = require('should');
 var Bunyan2Loggly = require('bunyan-loggly');
 var GelfStream = require('gelf-stream').GelfStream;
-var ElasticSearch = require('@sam-lord/elasticsearch-bunyan');
+var ElasticSearch = require('@tryghost/elasticsearch-bunyan');
 var sandbox = sinon.createSandbox();
 
 describe('Logging', function () {
@@ -314,9 +314,9 @@ describe('Logging', function () {
         var ghostLogger = new GhostLogger({
             transports: ['elasticsearch'],
             elasticsearch: {
-                host: 'https://elastic.ghost.org:9200',
-                username: 'elastic',
-                password: '**REDACTED**'
+                host: 'https://test-elasticsearch',
+                username: 'user',
+                password: 'pass'
             }
         });
 
@@ -330,15 +330,32 @@ describe('Logging', function () {
         var ghostLogger = new GhostLogger({
             transports: ['elasticsearch'],
             elasticsearch: {
-                host: 'https://elastic.ghost.org:9200',
-                username: 'elastic',
-                password: '**REDACTED**',
+                host: 'https://test-elasticsearch',
+                username: 'user',
+                password: 'pass',
                 level: 'error'
             }
         });
 
         ghostLogger.info('testing');
         ElasticSearch.prototype.write.called.should.eql(false);
+    });
+
+    it('elasticsearch can write errors in info mode', function () {
+        sandbox.spy(ElasticSearch.prototype, 'write');
+
+        var ghostLogger = new GhostLogger({
+            transports: ['elasticsearch'],
+            elasticsearch: {
+                host: 'https://test-elasticsearch',
+                username: 'user',
+                password: 'pass',
+                level: 'info'
+            }
+        });
+
+        ghostLogger.error('testing');
+        ElasticSearch.prototype.write.called.should.eql(true);
     });
 
     it('automatically adds stdout to transports if stderr transport is configured and stdout isn\'t', function () {
