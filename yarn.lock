@@ -78,10 +78,10 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
-"@tryghost/elasticsearch-bunyan@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@tryghost/elasticsearch-bunyan/-/elasticsearch-bunyan-0.1.0.tgz#cb66b2eba0c5e5970645b4548e2a41b1ce7a33cc"
-  integrity sha512-Qg/6JfMU5l5+dWJDuXLTrq4CIzucIeZ2H3bH5cOY6Yp+rLqBAADhRzAdlwL6s2Ab/X7/156Ljl58Ik+dpsgWRQ==
+"@tryghost/elasticsearch-bunyan@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@tryghost/elasticsearch-bunyan/-/elasticsearch-bunyan-0.1.1.tgz#5a36d81dd020825dd563b1357ae6c249580c46f5"
+  integrity sha512-ILhumzdwJNoRG44S0FkgzZQlkCYioTKWEiY+FFFQpTFWwZ3Jd5a6us5k8tEsd+Wf2rZOvul/ehV45j2c2l1BMw==
   dependencies:
     "@elastic/elasticsearch" "^7.10.0"
 
