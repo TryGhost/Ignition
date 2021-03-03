@@ -77,10 +77,10 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
-"@tryghost/bunyan-rotating-filestream@0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@tryghost/bunyan-rotating-filestream/-/bunyan-rotating-filestream-0.0.4.tgz#22f35b555ec82fc6e4fc7419d892c9708cc592a7"
-  integrity sha512-cJTW9UBxDtrVBnCKMHDKyWp/hz2uSrOEL2JSyf7J1wmufWkkLozkzcFnA2e5JAsOK9haG8NDmi2fQm9jTNdcxg==
+"@tryghost/bunyan-rotating-filestream@0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@tryghost/bunyan-rotating-filestream/-/bunyan-rotating-filestream-0.0.5.tgz#0c69a8b779388489c77559d457db01ff89e8be66"
+  integrity sha512-szgd8pHnuilGaplS0WrAWiFRzwed2MD5L52c72XxWA6mOizQt5RdYZQlrN9d9rXUPflKS5cYLQpdvGBEd1nB8A==
   dependencies:
     long-timeout "^0.1.1"
 
