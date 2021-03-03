@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/TryGhost/Ignition#readme",
   "dependencies": {
-    "@tryghost/bunyan-rotating-filestream": "0.0.5",
+    "@tryghost/bunyan-rotating-filestream": "0.0.6",
     "@tryghost/elasticsearch-bunyan": "0.1.1",
     "bunyan": "1.8.15",
     "bunyan-loggly": "1.4.2",
