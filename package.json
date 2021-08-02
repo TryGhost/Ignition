@@ -49,7 +49,7 @@
     "json-stringify-safe": "5.0.1",
     "lodash": "4.17.21",
     "moment": "2.27.0",
-    "nconf": "0.11.2",
+    "nconf": "0.11.3",
     "prettyjson": "1.2.1",
     "uuid": "8.3.2"
   },
